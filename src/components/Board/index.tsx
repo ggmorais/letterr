@@ -1,24 +1,28 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, ReactElement } from 'react';
 
 import './styles.sass';
 
 export interface BoardProps {
-  value: string;
+  value?: string;
+  formatedValue?: ReactElement;
   readOnly?: boolean
   name?: string;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const Board: React.FC<BoardProps> = ({ value, onChange, readOnly, name }) => {
-
+const Board: React.FC<BoardProps> = ({ value, formatedValue, onChange, readOnly, name }) => {
+  
   return (
     <div className="board-container">
-      <textarea
-        name={name}
-        value={value} 
-        // disabled={readOnly}
-        onChange={!readOnly ? onChange : () => {}} 
-      />
+      {!readOnly ? (
+        <textarea
+          name={name}
+          value={value} 
+          onChange={onChange} 
+        />
+      ) : (
+        <p>{formatedValue}</p>
+      )}
     </div>
   );
 }

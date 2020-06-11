@@ -1,18 +1,25 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, ReactElement } from 'react';
 
 import logo from 'assets/logo.png';
 import './styles.sass';
 import Board from 'components/Board';
 import Toolbar from 'components/Toolbar';
+import Modifier from 'components/Modifier';
 
 const Home = () => {
 
-  const [leftBoard, setLeftBoard] = useState('');
+  const [formatedText, setFormatedText] = useState<ReactElement>();
+  const [normalText, setNormalText] = useState('');
+
+  function handleFormating(method: string) {
+    setFormatedText(<Modifier type={method} text={normalText} originalText={normalText} />);
+  }
 
   function handleLeftBoard(e: ChangeEvent<HTMLTextAreaElement>) {
     const { value } = e.target;
 
-    setLeftBoard(value);
+    setNormalText(value);
+    setFormatedText(<>{value}</>);
   }
 
   return (
@@ -20,11 +27,11 @@ const Home = () => {
       <img id="logo" src={logo} alt="Letterr logo" />
       
       <div className="content">
-        <Toolbar />
+        <Toolbar toolHandler={handleFormating} />
 
         <div className="boards">
-          <Board name="left" value={leftBoard} onChange={handleLeftBoard} />
-          <Board readOnly name="right" value={leftBoard} />
+          <Board name="left" value={normalText} onChange={handleLeftBoard} />
+          <Board readOnly name="right" formatedValue={formatedText} />
         </div>
       </div>
     </div>
