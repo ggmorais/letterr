@@ -1,17 +1,19 @@
 import React, { CSSProperties, ReactElement, MouseEvent } from 'react';
-import {} from 'react-icons';
 
 interface IconButtonProps<T = {}>  {
   style?: CSSProperties;
   value: ReactElement | string;
-  onClick: (actionType: TextFormats) => void;
-  actionType: TextFormats
+  onClick?: () => void;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({onClick, style, value, actionType }) => {
+const IconButton: React.FC<IconButtonProps> = ({ style, value, onClick }) => {
 
   return (
-    <div className="iconButton" style={style} onClick={e => onClick(actionType)} >
+    <div 
+      className="iconButton"
+      style={style}
+      onClick={onClick}
+    >
       <p>
         { value }
       </p>

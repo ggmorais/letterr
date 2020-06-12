@@ -1,33 +1,34 @@
 import React, { MouseEvent } from 'react';
 import { FiX } from 'react-icons/fi';
 
-import './styles.sass';
 import IconButton from './IconButton';
-import actions from 'actions';
+import useFormater from 'hooks/useFormater';
+
+import './styles.sass';
 
 interface ToolbarProps {
-  toolHandler(method: string): void;
+  text: string;
+  originalText: string;
+  setText: (text: string) => void;
 }
 
-const Toolbar: React.FC<ToolbarProps> = ({ toolHandler }) => {
+const Toolbar: React.FC<ToolbarProps> = ({ text, originalText, setText }) => {
 
-  // function handleClick(e: MouseEvent<HTMLDivElement>, actionType: TextFormats) {
-  //   console.log(actionType)
-  // }
+  const formater = useFormater(text);
 
   return (
     <div className="toolbar-container">
       <div className="buttons">
         <IconButton
-          onClick={toolHandler}
-          actionType="clear"
+          style={{ marginRight: '32px' }}
+          onClick={() => setText(originalText)}
           value={<FiX size={18} color="#FF8484" strokeWidth={3} />}
         />
 
-        <IconButton onClick={toolHandler} actionType="upperCase" value="A" />
-        <IconButton onClick={toolHandler} actionType="lowerCase" value="a" />
-        <IconButton onClick={toolHandler} actionType="bold" value={<b>b</b>} />
-        <IconButton onClick={toolHandler} actionType="spaceToUnderscore" value="a_a" />
+        <IconButton value="A" onClick={() => setText(formater.toUpperCase())} />
+        <IconButton value="a" onClick={() => setText(formater.toLowerCase())} />
+        <IconButton value="a_a" onClick={() => setText(formater.spaceToUnderscore())} />
+        <IconButton value="Aa" onClick={() => setText(formater.capitalize())} />
 
         <div className="line"></div>
       </div>
